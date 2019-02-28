@@ -3,7 +3,8 @@
 import imutils
 import cv2
 import numpy as np
-import time 
+import time
+import RPI.GPIO as GPIO
 
 isExiting = False
 cap = cv2.VideoCapture(0) 
@@ -26,12 +27,14 @@ def handleHuman():
         print("TIMED OUT! LIGHTS OUT!")
         lastHuman = float("inf")
         # Turn off the light
+        GPIO.output(13, GPIO.LOW)
         return
     if cv2.countNonZero(delta) > thresInArea:
         print("HUMAN DETECTED AT ", int(time.time())) 
         print("TIMING OUT AT ", int(time.time()) + timeout)
         lastHuman = int(time.time()) + timeout
         # Turn on the light
+        GPIO.output(13, GPIO.HIGH)
     
 
 def init():
@@ -42,6 +45,10 @@ def init():
     delta = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY, delta, 1)
     avg_frame = cv2.resize(avg_frame, res)
     delta = cv2.resize(delta, res)
+
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(13, GPIO.OUT, initial=GPIO.LOW)
     pass
 
 def process():
