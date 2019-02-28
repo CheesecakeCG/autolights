@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 import time 
 
-isExiting: bool = False
+isExiting = False
 cap = cv2.VideoCapture(0) 
 avg_frame = None
 delta = None
