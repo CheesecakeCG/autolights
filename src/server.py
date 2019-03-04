@@ -29,14 +29,14 @@ def handleHuman():
         print("TIMED OUT! LIGHTS OUT!")
         lastHuman = float("inf")
         # Turn off the light
-        ssh.run(["/home/pi/autolights/client.py", "off"])
+        ssh.run(["/home/pi/autolights/src/client.py", "off"])
         return
     if cv2.countNonZero(delta) > thresInArea:
         print("HUMAN DETECTED AT ", int(time.time())) 
         print("TIMING OUT AT ", int(time.time()) + timeout)
         lastHuman = int(time.time()) + timeout
         # Turn on the light
-        ssh.run(["/home/pi/autolights/client.py", "on"])
+        ssh.run(["/home/pi/autolights/src/client.py", "on"])
     
 
 def init():
